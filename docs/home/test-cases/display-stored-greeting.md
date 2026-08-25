@@ -1,59 +1,59 @@
 # Test cases — Display stored greeting
 
-Risk level: low. Single read-only public page, no roles, no writes. Cover one case per acceptance criterion plus contract success shape.
+Risk level: low. One read-only home screen, no writes, no roles, no user input. Focus on contract, rendering, and failure path from backing data.
 
-## Case 1
-**Scenario**: Show stored greeting text
-**Given**: PostgreSQL row `greetings.id = 1` contains `Hello Word` and backend API is available
-**When**: Guest opens home page
-**Then**: Page shows visible text `Hello Word` and no other greeting copy
+## TC-1 — Home shows stored greeting text
+**Scenario**: Render stored Hello Word
+**Given**: PostgreSQL row `greetings.id = 1` contains text `Hello Word`, backend API is reachable, and home page is loaded.
+**When**: Guest opens home page.
+**Then**: Page displays `Hello Word` as visible main text.
 **Check**: render_url
-**Trace**: HOME-001 / AC-1
+**Trace**: HOME-001, AC-1
 
-## Case 2
+## TC-2 — Home text centered on page
 **Scenario**: Center greeting horizontally and vertically
-**Given**: Page renders normally with stored greeting available
-**When**: Guest opens home page
-**Then**: Main greeting sits centered horizontally and vertically on page
+**Given**: Page renders normally with stored greeting available.
+**When**: Guest opens home page.
+**Then**: Main greeting sits centered horizontally and vertically in viewport.
 **Check**: measure_styles
-**Trace**: HOME-001 / AC-2
+**Trace**: HOME-001, AC-2
 
-## Case 3
-**Scenario**: Read greeting from backend path, not hardcoded frontend text
-**Given**: Frontend source has no literal greeting copy and backend returns greeting text
-**When**: Guest opens home page
-**Then**: Displayed text matches backend response body and not inline frontend copy
+## TC-3 — Frontend does not hardcode greeting copy
+**Scenario**: Load greeting from backend data path
+**Given**: Frontend source has no inline greeting string, backend API returns greeting text from stored row.
+**When**: Guest opens home page.
+**Then**: Displayed text matches backend response value and not hardcoded frontend copy.
 **Check**: render_url
-**Trace**: HOME-001 / AC-3
+**Trace**: HOME-001, AC-3
 
-## Case 4
-**Scenario**: No animation on home page
-**Given**: Approved design has no motion states
-**When**: Guest opens home page and watches initial render
-**Then**: Page shows no animation or transition on greeting or page background
+## TC-4 — Home has no animation
+**Scenario**: No motion on greeting screen
+**Given**: Approved design for home page.
+**When**: Guest opens home page.
+**Then**: No animated motion or transition is visible on the page.
 **Check**: measure_styles
-**Trace**: HOME-001 / AC-4
+**Trace**: HOME-001, AC-4
 
-## Case 5
-**Scenario**: Greeting API success shape
-**Given**: Backend has stored greeting row
-**When**: Client requests `GET /v1/greeting`
-**Then**: Response status is 200 and body is JSON `{ "text": "Hello Word" }` with `Content-Type: application/json`
+## TC-5 — API returns greeting success shape
+**Scenario**: GET /v1/greeting success body
+**Given**: `greetings.id = 1` exists in PostgreSQL.
+**When**: Client sends `GET /v1/greeting`.
+**Then**: Response is `200` and JSON body is exactly `{ "text": "Hello Word" }` with no extra fields required by contract.
 **Check**: fetch_url
-**Trace**: services.md / GET /v1/greeting success contract
+**Trace**: services.md `GET /v1/greeting` success response
 
-## Case 6
-**Scenario**: Greeting API missing row returns not_found
-**Given**: `greetings.id = 1` is missing
-**When**: Client requests `GET /v1/greeting`
-**Then**: Response status is 404 and body is `{ "error": { "code": "not_found", "message": "Greeting not found" } }`
+## TC-6 — API returns not_found when greeting row missing
+**Scenario**: GET /v1/greeting missing row
+**Given**: `greetings.id = 1` is absent from PostgreSQL.
+**When**: Client sends `GET /v1/greeting`.
+**Then**: Response is `404` and body is `{ "error": { "code": "not_found", "message": "Greeting not found" } }`.
 **Check**: fetch_url
-**Trace**: services.md / GET /v1/greeting error contract
+**Trace**: services.md `GET /v1/greeting` error contract
 
-## Case 7
-**Scenario**: Greeting API unexpected failure returns internal_error
-**Given**: Backend or database fails unexpectedly while serving greeting
-**When**: Client requests `GET /v1/greeting`
-**Then**: Response status is 500 and body is `{ "error": { "code": "internal_error", "message": "Internal server error" } }`
+## TC-7 — API returns internal_error on unexpected failure
+**Scenario**: GET /v1/greeting database or server failure
+**Given**: Backend hits unexpected server or database failure while reading greeting.
+**When**: Client sends `GET /v1/greeting`.
+**Then**: Response is `500` and body is `{ "error": { "code": "internal_error", "message": "Internal server error" } }`.
 **Check**: fetch_url
-**Trace**: services.md / GET /v1/greeting error contract
+**Trace**: services.md `GET /v1/greeting` error contract
