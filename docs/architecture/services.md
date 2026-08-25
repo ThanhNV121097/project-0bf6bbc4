@@ -5,6 +5,7 @@
 - Public API version prefix is `/v1`.
 - Requests and responses are JSON unless endpoint says otherwise.
 - Success response shape is endpoint-specific.
+- Public endpoints require no auth unless stated.
 - Error envelope is shared:
 
 ```json
@@ -26,6 +27,8 @@
 ### `GET /healthz`
 Readiness check for container and runtime.
 
+Auth: none.
+
 Request body: none.
 
 Response `200 text/plain`:
@@ -41,6 +44,8 @@ Rules:
 ### `GET /v1/greeting`
 Returns stored greeting for home page.
 
+Auth: none.
+
 Request body: none.
 
 Response `200 application/json`:
@@ -50,6 +55,12 @@ Response `200 application/json`:
   "text": "Hello Word"
 }
 ```
+
+Response fields match reviewed UI mock module `GreetingResponse`:
+
+| Field | Type | Required | Source |
+|---|---|---:|---|
+| `text` | string | yes | `greetings.text` for `id = 1` |
 
 Errors:
 | HTTP | Body |
@@ -61,3 +72,18 @@ Rules:
 - Read `greetings.id = 1`.
 - Return text exactly as stored.
 - Do not cache in frontend as source of truth.
+- Do not add loading, error, animation, or variant response states for this story; approved UI has one default state.
+- No pagination. Endpoint returns one object.
+
+## Migration plan for service dependency
+
+### Forward
+1. Run database migration that creates and seeds `greetings` before API readiness.
+2. Expose `GET /v1/greeting` only after migration success.
+
+### Backward
+1. Remove `GET /v1/greeting` handler before dropping `greetings` table.
+2. Drop `greetings` table with matching database rollback.
+
+### Safety on populated tables
+Safe before production content exists. Backward path removes only story-owned endpoint and story-owned data table.
