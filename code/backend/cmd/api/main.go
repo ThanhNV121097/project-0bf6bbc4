@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"embed"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,8 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ThanhNV121097/project-0bf6bbc4/backend/migrations"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
