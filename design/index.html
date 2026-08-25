@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hello-word-15</title>
+  <style>
+:root {
+      --bg: #ffffff;
+      --text: #000000;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+
+    .message {
+      margin: 0;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .stack {
+      display: grid;
+      gap: 0;
+    }
+
+  </style>
+</head>
+<body>
+  <main class="screen" aria-label="hello-word-15 design preview">
+    <section class="card" aria-labelledby="success-title">
+      <h1 class="message" id="success-title">Hello Word</h1>
+    </section>
+  </main>
+</body>
+</html>
