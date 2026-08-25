@@ -7,5 +7,4 @@ CREATE TABLE IF NOT EXISTS greetings (
 
 INSERT INTO greetings (id, text)
 VALUES (1, 'Hello Word')
-ON CONFLICT (id) DO UPDATE
-SET text = EXCLUDED.text;
+ON CONFLICT (id) DO NOTHING;
