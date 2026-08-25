@@ -126,7 +126,7 @@ func applyMigration(ctx context.Context, db *pgxpool.Pool, name string) error {
 		return tx.Commit(ctx)
 	}
 
-	sqlBytes, err := migrationFiles.ReadFile("migrations/" + name)
+	sqlBytes, err := migrations.Files.ReadFile(name)
 	if err != nil {
 		return err
 	}
