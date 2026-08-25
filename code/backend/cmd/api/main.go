@@ -186,5 +186,3 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 func writeError(w http.ResponseWriter, status int, code string, message string) {
 	writeJSON(w, status, errorResponse{Error: apiError{Code: code, Message: message}})
 }
-
-var _ *pgconn.PgError
