@@ -1,0 +1,19 @@
+.screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+}
+
+.card {
+  display: grid;
+}
+
+.message {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  line-height: 1;
+}
