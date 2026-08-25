@@ -17,9 +17,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-//go:embed migrations/*.sql
-var migrationFiles embed.FS
-
 type server struct {
 	db    *pgxpool.Pool
 	ready bool
