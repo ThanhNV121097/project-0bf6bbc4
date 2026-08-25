@@ -10,18 +10,30 @@ type GreetingResponse = {
 const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "/api";
 
 export function GreetingScreen() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
 
-    fetch(`${apiBase}/v1/greeting`)
-      .then((response) => response.json())
-      .then((data: GreetingResponse) => {
+    async function loadGreeting() {
+      try {
+        const response = await fetch(`${apiBase}/v1/greeting`);
+        if (!response.ok) {
+          throw new Error(`unexpected response: ${response.status}`);
+        }
+
+        const data = (await response.json()) as GreetingResponse;
         if (active) {
           setText(data.text);
         }
-      });
+      } catch {
+        if (active) {
+          setText(null);
+        }
+      }
+    }
+
+    void loadGreeting();
 
     return () => {
       active = false;
@@ -32,7 +44,7 @@ export function GreetingScreen() {
     <main className={styles.screen} aria-label="hello-word-15 greeting screen">
       <section className={styles.card} aria-labelledby="greeting-title">
         <h1 className={styles.message} id="greeting-title">
-          {text}
+          {text ?? ""}
         </h1>
       </section>
     </main>
