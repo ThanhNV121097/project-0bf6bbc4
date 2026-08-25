@@ -26,7 +26,6 @@ Design system: `design/design-system.md`
 **Out of scope** — name what a reader would reasonably expect here and say where it lives instead.
 
 - Any other page, nav, or interaction — not built; project is one-screen proof only.
-- Editing greeting text — belongs to a separate admin/content module, not this module.
 - Styling variants, animation, loading, or error visuals — not in approved design.
 
 ## 4. Functional requirements
