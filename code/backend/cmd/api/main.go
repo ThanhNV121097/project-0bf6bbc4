@@ -80,7 +80,7 @@ func port() string {
 }
 
 func migrate(ctx context.Context, db *pgxpool.Pool) error {
-	entries, err := migrationFiles.ReadDir("migrations")
+	entries, err := migrations.Files.ReadDir(".")
 	if err != nil {
 		return err
 	}
