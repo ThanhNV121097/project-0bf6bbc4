@@ -1,3 +1,5 @@
+import { GreetingScreen } from "../components/GreetingScreen";
+
 export default function HomePage() {
-  return <main className="page-shell" />;
+  return <GreetingScreen />;
 }
