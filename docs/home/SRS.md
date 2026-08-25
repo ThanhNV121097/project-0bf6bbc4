@@ -86,10 +86,6 @@ Behaviour:
 - **Depends on:** PostgreSQL, for stored greeting row.
 - **Assumption:** greeting row already exists with one value; if missing, API contract handles that as upstream data issue.
 
-| Open question | Proposed default | Who decides |
-|---|---|---|
-| Should missing greeting row render fallback copy or fail request? | No fallback in UI; backend contract decides error behavior. | Stakeholder / TL |
-
 ## 8. Traceability
 
 | Plan item | Requirement ids | Test cases |
